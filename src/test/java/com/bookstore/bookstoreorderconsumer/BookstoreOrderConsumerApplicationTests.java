@@ -21,12 +21,12 @@ class BookstoreOrderConsumerApplicationTests {
 
 	@Test
 	public void orderBook() throws Exception {
-		 mockMvc.perform(
+		mockMvc.perform(
 						post("/order-book")
 								.contentType(APPLICATION_JSON)
 								.content("{" +
-										"\"bookId\":1" +
-										"\"bookName\":\"GodFather\"" +
+										"\"bookId\": 1," +
+										"\"bookName\": \"GODFATHER\"" +
 										"}"
 								))
 				.andDo(print())
@@ -36,8 +36,6 @@ class BookstoreOrderConsumerApplicationTests {
 								"\"status\":\"ORDERED\"" +
 								"}"))
 				.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON));
-
-
 	}
 
 }
