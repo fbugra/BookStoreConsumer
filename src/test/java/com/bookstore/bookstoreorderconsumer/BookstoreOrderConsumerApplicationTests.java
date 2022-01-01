@@ -33,7 +33,7 @@ class BookstoreOrderConsumerApplicationTests {
 				.andExpect(status().isOk())
 				.andExpect(content()
 						.json("{" +
-								"\"status\":\"ORDERED\"" +
+								"\"status\":\"ACCEPTED\"" +
 								"}"))
 				.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON));
 	}

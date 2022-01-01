@@ -1,28 +1,32 @@
 package com.bookstore.bookstoreorderconsumer;
 
-import org.springframework.core.annotation.Order;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.StreamingHttpOutputMessage;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.method.annotation.JsonViewRequestBodyAdvice;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 public class BookStoreOrderController {
 
-    private final RestTemplate restTemplate;
+    @PostMapping(value = "/order-book", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public BuyBookResponse orderBook(@RequestBody BuyBookRequest buyBookRequest) throws IOException {
 
-    public BookStoreOrderController(RestTemplate restTemplate){
-        this.restTemplate = restTemplate;
-    }
+        if(buyBookRequest.getBookId() == 1 && "GODFATHER".equals(buyBookRequest.getBookName()))
+            return new BuyBookResponse(BuyBookResponse.Status.ACCEPTED);
 
-    @PostMapping("/order-book")
-    public OrderBookResponse orderBook(final OrderBookRequest orderBookRequest){
-        final int bookId = orderBookRequest.getBookId();
-        final String bookName = orderBookRequest.getBookName();
-        CheckBookResponse checkBookResponse =restTemplate.postForObject("http:localhost:8080/order-book", new CheckBookRequest(bookId), CheckBookResponse.class);
-        if(checkBookResponse.status.equals(CheckBookResponse.Status.AVAILABLE)){
-            return new OrderBookResponse(OrderBookResponse.Status.ORDERED);
-        }
-        return new OrderBookResponse(OrderBookResponse.Status.DENIED);
+        return new BuyBookResponse(BuyBookResponse.Status.REJECTED);
 
     }
+
 }

@@ -12,10 +12,4 @@ public class BookstoreOrderConsumerApplication {
 		SpringApplication.run(BookstoreOrderConsumerApplication.class, args);
 	}
 
-	@Bean
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
-	}
-
-
 }
