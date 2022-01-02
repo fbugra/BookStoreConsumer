@@ -1,10 +1,11 @@
 package com.bookstore.bookstoreorderconsumer;
 
-public class CheckBookRequest {
+public class GetAvailableBookRequest {
+
     private int bookId;
 
-    public CheckBookRequest(int bookId) {
-        this.bookId = bookId;
+    public GetAvailableBookRequest(int bookId) {
+        this.bookId=bookId;
     }
 
     public int getBookId() {

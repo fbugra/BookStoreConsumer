@@ -1,6 +1,8 @@
 package com.bookstore.bookstoreorderconsumer;
 
-public class OrderBookRequest {
+import org.springframework.web.bind.annotation.PostMapping;
+
+public class BuyBookRequest {
     private int bookId;
     private String bookName;
 
@@ -19,4 +21,6 @@ public class OrderBookRequest {
     public void setBookName(String bookName) {
         this.bookName = bookName;
     }
+
+
 }

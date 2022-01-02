@@ -1,9 +1,12 @@
 package com.bookstore.bookstoreorderconsumer;
 
-import org.springframework.core.annotation.Order;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
 
 @RestController
 public class BookStoreOrderController {
@@ -14,15 +17,16 @@ public class BookStoreOrderController {
         this.restTemplate = restTemplate;
     }
 
-    @PostMapping("/order-book")
-    public OrderBookResponse orderBook(final OrderBookRequest orderBookRequest){
-        final int bookId = orderBookRequest.getBookId();
-        final String bookName = orderBookRequest.getBookName();
-        CheckBookResponse checkBookResponse =restTemplate.postForObject("http:localhost:8080/order-book", new CheckBookRequest(bookId), CheckBookResponse.class);
-        if(checkBookResponse.status.equals(CheckBookResponse.Status.AVAILABLE)){
-            return new OrderBookResponse(OrderBookResponse.Status.ORDERED);
-        }
-        return new OrderBookResponse(OrderBookResponse.Status.DENIED);
+
+    @PostMapping(value = "/order-book", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public BuyBookResponse orderBook(@RequestBody BuyBookRequest buyBookRequest) throws IOException {
+
+        GetAvailableBookResponse getAvailableBookResponse = restTemplate.postForObject("http://localhost:8080/get-available-book-count", new GetAvailableBookRequest(buyBookRequest.getBookId()), GetAvailableBookResponse.class);
+        if(getAvailableBookResponse.getCount()>0)
+                return new BuyBookResponse(BuyBookResponse.Status.REJECTED);
+
+        return new BuyBookResponse(BuyBookResponse.Status.REJECTED);
 
     }
+
 }

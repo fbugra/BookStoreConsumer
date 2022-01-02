@@ -16,6 +16,4 @@ public class BookstoreOrderConsumerApplication {
 	public RestTemplate restTemplate(){
 		return new RestTemplate();
 	}
-
-
 }

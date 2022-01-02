@@ -1,10 +1,10 @@
 package com.bookstore.bookstoreorderconsumer;
 
-public class OrderBookResponse {
+public class BuyBookResponse {
 
     public Status status;
 
-    public OrderBookResponse(Status status) {
+    public BuyBookResponse(Status status) {
         this.status = status;
     }
 
@@ -17,7 +17,7 @@ public class OrderBookResponse {
     }
 
     public enum Status{
-        ORDERED,
-        DENIED
+        ACCEPTED,
+        REJECTED
     }
 }
