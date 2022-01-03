@@ -1,5 +1,6 @@
 package com.bookstore.bookstoreorderconsumer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,9 +12,10 @@ import java.io.IOException;
 @RestController
 public class BookStoreOrderController {
 
+    @Autowired
     private final RestTemplate restTemplate;
 
-    public BookStoreOrderController(RestTemplate restTemplate){
+    public BookStoreOrderController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -23,7 +25,7 @@ public class BookStoreOrderController {
 
         GetAvailableBookResponse getAvailableBookResponse = restTemplate.postForObject("http://localhost:8080/get-available-book-count", new GetAvailableBookRequest(buyBookRequest.getBookId()), GetAvailableBookResponse.class);
         if(getAvailableBookResponse.getCount()>0)
-                return new BuyBookResponse(BuyBookResponse.Status.REJECTED);
+                return new BuyBookResponse(BuyBookResponse.Status.ACCEPTED);
 
         return new BuyBookResponse(BuyBookResponse.Status.REJECTED);
 
